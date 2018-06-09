@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    table {
+      width: 600px;
+      border: 1px solid #000;
+      border-collapse: collapse;
+    }
+
+    th {
+      border: 1px solid #000;
+      height: 30px;
+      line-height: 30px;
+      background-color: #ccc;
+    }
+
+    td {
+      border: 1px solid #000;
+    }
+  </style>
+</head>
+
+<body>
+  <button>获取数据</button>
+  <table>
+    <thead>
+      <tr>
+        <th>名字</th>
+        <th>年龄</th>
+        <th>性别</th>
+        <th>描述</th>
+      </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+  </table>
+
+  <script src="ajax.js"></script>
+  <script>
+    var btn = document.querySelector("button");
+    var tbody = document.querySelector("tbody");
+    btn.onclick = function () {
+
+      ajax({
+        url: "06-json.php",
+        dataType: 'json',
+        success: function (info) {
+          //把info显示到tbody中
+          var html = "";
+          info.forEach(function (e) {
+            html += "<tr>";
+            html += "<td>" + e.name +"</td>";
+            html += "<td>" + e.age +"</td>";
+            html += "<td>" + e.gender +"</td>";
+            html += "<td>" + e.desc +"</td>";
+            html += "</tr>";
+          });
+          tbody.innerHTML = html;
+        }
+      });
+
+    }
+  </script>
+</body>
+
+</html>

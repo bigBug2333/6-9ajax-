@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  
+  <button>发送get请求</button>
+  <button>发送post请求</button>
+
+  <script>
+    //name=zs&age=18
+    var btn1 = document.querySelector("button:first-of-type");
+    var btn2 = document.querySelector("button:last-of-type");
+
+    btn1.onclick = function() {
+
+      var xhr = new XMLHttpRequest;
+
+      //设置请求
+      xhr.open("get", "10-get.php?name=zs&age=18");
+      xhr.send(null);
+
+      //获取响应
+      xhr.onreadystatechange = function() {
+        if(xhr.readyState === 4) {
+          if(xhr.status === 200) {
+            console.log(xhr.responseText);
+          }else {
+            //console.log(xhr.responseText);
+            console.log("服务器繁忙");
+          }
+        }
+      }
+
+    }
+    btn2.onclick = function() {
+      var xhr = new XMLHttpRequest;
+
+      //设置请求
+      xhr.open('post', "10-post.php");
+      xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+      xhr.send("name=zs&age=18");
+
+      //获取响应
+      xhr.onreadystatechange = function() {
+        if(xhr.readyState === 4) {
+          if(xhr.status === 200) {
+            console.log(xhr.responseText);
+          }else {
+            console.log("服务器繁忙");
+          }
+        }
+      }
+    }
+
+    //下午的封装：希望都尽可能听
+    //发送ajax请求，包括get与post
+    //参数提取
+    
+    //type: get | post     默认get
+    //url :  发送ajax请求的地址  必填
+    //async: true | false   默认true
+    //data :发送的参数  可有可没有
+    function ajax(){}
+
+
+  </script>
+
+</body>
+</html>

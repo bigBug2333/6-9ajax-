@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  
+  <button>发送get请求</button>
+  <button>发送post请求</button>
+
+  <div></div>
+  <script>
+    //name=zs&age=18
+    var btn1 = document.querySelector("button:first-of-type");
+    var btn2 = document.querySelector("button:last-of-type");
+
+    btn1.onclick = function() {
+      ajax({
+        type:'get',
+        url: '10-get.php',
+        dataType:'xml',
+        success: function(info) {
+          console.log(info);
+        }
+      })
+    }
+    btn2.onclick = function() {
+      ajax({
+        type: "post",
+        url: "10-post.php",
+        dataType: "json",
+        success:function(info) {
+          console.log(info);
+        }
+      })
+    }
+
+    //终极目标：封装一个ajax函数，既能够发送get，也能够发送post
+    
+    //type :请求类型
+    //url:请求的地址
+    //async: 同步或者是异步
+    //data: 参数
+    //dataType: 设定返回的数据的类型 xml/json/text  默认值text
+    //success: 成功时调用的函数
+    //error: 失败时调用的函数
+    function ajax(options) {
+      //参数处理
+      //如果没有传参数，或者传的参数不是一个对象，或者传的对象中没有url属性
+      if(!options || typeof options != 'object' || !options.url) {
+        return;
+      }
+
+      //传的type只要不是post，就是get
+      var type = options.type === "post"? "post": "get";
+      var url = options.url;
+      //传的async只要不是false，就是true
+      var async = options.async === false ? false : true;
+      var data = options.data;
+      var success = options.success;
+      var error = options.error;
+      var dataType = options.dataType || "text";
+
+      //发送请求
+      var xhr = new XMLHttpRequest;
+      //设置请求行
+      //如果是get请求，需要把data拼接到url的后面（有data的情况）
+      if(data && type === 'get') {
+        url = url + "?" + data;
+        data = null;
+      }
+      xhr.open(type, url, async);
+
+      //设置请求头，只有post请求才需要设置
+      if(type === 'post') {
+        xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+      }
+
+      //发送请求体
+      xhr.send(data);
+
+      //获取响应结果
+      xhr.onreadystatechange = function() {
+        //响应结束了
+        if(xhr.readyState === 4) {
+          if(xhr.status === 200) {
+            //成功了
+            // if(success) {
+            //   success(xhr.responseText);
+            // }
+            var result;
+            if(dataType == "xml") {
+              result = xhr.responseXML;
+            }else if(dataType == 'json') {
+              result = xhr.responseText;
+              //如果要json，自动帮你转换成json了
+              result = JSON.parse(result);
+            }else {
+              result = xhr.responseText;
+            }
+            success && success(result);
+           
+          }else {
+            // if(error) {
+            //   error(xhr.responseText);
+            // }
+            error && error(xhr.responseText);
+          }
+        }
+      }
+
+    }
+
+  
+
+</script>
+</body>
+</html>

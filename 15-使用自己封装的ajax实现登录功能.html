@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  
+  <input type="text" id="username">
+  <input type="text" id="password">
+  <input type="button" value="登录" id="btn">
+
+  <script src="ajax.js"></script>
+  <script>
+  
+    //1. 给按钮注册点击事件
+    
+    var btn = document.querySelector("#btn");
+    btn.onclick = function() {
+      var username = document.querySelector("#username").value;
+      var password = document.querySelector("#password").value;
+      //发送ajax请求
+      ajax({
+        type: 'post',
+        url: "15-login.php",
+        data: {
+          username: username,
+          password: password
+        },
+        dataType: 'json',
+        success: function(info) {
+          if(info.status === 0) {
+            alert(info.message);
+          }else {
+            alert(info.message);
+            window.location.href = "http://www.baidu.com";
+          }
+        }
+      })
+    }
+  </script>
+
+</body>
+</html>

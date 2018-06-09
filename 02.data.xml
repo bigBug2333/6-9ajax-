@@ -1,0 +1,26 @@
+<heros>
+  <hero>
+    <name>曹操</name>
+    <age>35</age>
+    <gender>男</gender>
+    <desc>喜欢别人的老婆</desc>
+  </hero>
+  <hero>
+    <name>赵云</name>
+    <age>32</age>
+    <gender>男</gender>
+    <desc>七进七出</desc>
+  </hero>
+  <hero>
+    <name>李白</name>
+    <age>20</age>
+    <gender>男</gender>
+    <desc>很秀，小学生比较多</desc>
+  </hero>
+  <hero>
+    <name>貂蝉</name>
+    <age>20</age>
+    <gender>女</gender>
+    <desc>一定要出减治疗的</desc>
+  </hero>
+</heros>

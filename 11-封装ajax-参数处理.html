@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  
+  <button>发送get请求</button>
+  <button>发送post请求</button>
+
+  <script>
+    //name=zs&age=18
+    var btn1 = document.querySelector("button:first-of-type");
+    var btn2 = document.querySelector("button:last-of-type");
+
+    btn1.onclick = function() {
+
+      var xhr = new XMLHttpRequest;
+
+      //设置请求
+      xhr.open("get", "10-get.php?name=zs&age=18");
+      xhr.send(null);
+
+      //获取响应
+      xhr.onreadystatechange = function() {
+        if(xhr.readyState === 4) {
+          if(xhr.status === 200) {
+            console.log(xhr.responseText);
+          }else {
+            //console.log(xhr.responseText);
+            console.log("服务器繁忙");
+          }
+        }
+      }
+
+    }
+    btn2.onclick = function() {
+      var xhr = new XMLHttpRequest;
+
+      //设置请求
+      xhr.open('post', "10-post.php");
+      xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+      xhr.send("name=zs&age=18");
+
+      //获取响应
+      xhr.onreadystatechange = function() {
+        if(xhr.readyState === 4) {
+          if(xhr.status === 200) {
+            console.log(xhr.responseText);
+          }else {
+            console.log("服务器繁忙");
+          }
+        }
+      }
+    }
+
+ 
+    //type: get | post     默认get
+    //url :  发送ajax请求的地址  必填
+    //async: true | false   默认true
+    //data :发送的参数  可有可没有
+    function ajax(options){
+      //参数处理
+      //如果没有传options或者传的options不是一个对象，没有必要发送ajax请求
+      if(!options || typeof options != 'object') {
+        return;
+      }
+      
+      //只要type没有传post，就是get
+      var type = options.type === "post"? "post" : "get";
+      //url是必须传递的
+      var url = options.url;
+      if(!url) {
+        return;
+      }
+      //只要传递的不是false，默认是true
+      var async = options.async === false? false : true;
+      var data = options.data;
+      
+      //新建一个xhr对象
+      var xhr = new XMLHttpRequest;
+      //设置请求行
+
+      //如果是get请求，并且data有数据，需要把data拼接到url的后面
+      if(type === "get" && data) {
+        url = url + "?" + data;
+        //如果是get请求，data就拼接到url的后面了，那么data就可以等于null
+        data = null;
+      }
+      xhr.open(type, url, async);
+
+      //设置请求头
+      if(type === "post") {
+        xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+      }
+
+      //设置请求体
+      xhr.send(data);
+
+
+      
+
+    }
+
+    ajax({
+      url:'10-get.php'
+    });
+
+
+  </script>
+
+</body>
+</html>
